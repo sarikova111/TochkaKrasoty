@@ -1,0 +1,42 @@
+﻿@page
+@model TochkaKrasoty.Pages.RegisterModel
+
+<h2>Регистрация</h2>
+
+<form method="post">
+    <div>
+        <label>ФИО:</label>
+        <input asp-for="Input.FullName" />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <input asp-for="Input.Email" />
+    </div>
+
+    <div>
+        <label>Телефон:</label>
+        <input asp-for="Input.Phone" />
+    </div>
+
+    <div>
+        <label>Пароль:</label>
+        <input asp-for="Input.Password" type="password" />
+    </div>
+
+    <div>
+        <label>Подтвердите пароль:</label>
+        <input asp-for="Input.ConfirmPassword" type="password" />
+    </div>
+
+    <button type="submit">Зарегистрироваться</button>
+
+    <div style="color:red">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+            
+        }
+    </div>
+    <a href="javascript:history.back()" class="back-link">Вернуться назад</a>
+</form>

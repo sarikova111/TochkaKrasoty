@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Точка красоты</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <header>
+        <div class="container topbar">
+            <a class="brand" asp-page="/Index">Точка красоты</a>
+
+            <div class="topbar-buttons">
+                <a class="nav-btn login-btn" asp-page="/Login">Вход</a>
+                <a class="nav-btn register-btn" asp-page="/Register">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Точка красоты. Все права защищены.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+@page
+@model TochkaKrasoty.Pages.Admin.AppointmentsModel
+@{
+    ViewData["Title"] = "Записи";
+}
+
+<h1 class="admin-title">Записи клиентов</h1>
+<p class="admin-subtitle">Добавление, просмотр и удаление записей</p>
+
+<div class="admin-form-box">
+    <h2>Добавить запись</h2>
+
+    <form method="post" asp-page-handler="Add">
+        <div class="form-group">
+            <label asp-for="Input.UserId">Клиент:</label>
+            <select asp-for="Input.UserId" asp-items="Model.UsersList">
+                <option value="0">Выберите клиента</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.ClientName">Имя клиента:</label>
+            <input asp-for="Input.ClientName" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Phone">Телефон:</label>
+            <input asp-for="Input.Phone" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.MasterId">Мастер:</label>
+            <select asp-for="Input.MasterId" asp-items="Model.MastersList">
+                <option value="0">Выберите мастера</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.ServiceItemId">Услуга:</label>
+            <select asp-for="Input.ServiceItemId" asp-items="Model.ServicesList">
+                <option value="0">Выберите услугу</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.AppointmentDate">Дата и время:</label>
+            <input asp-for="Input.AppointmentDate"
+                   type="datetime-local"
+                   min="2026-01-01T07:00"
+                   max="2030-12-31T19:00"
+                   step="3600" />
+            <small>Выбор доступен только с 2026 года, время с 07:00 до 19:00</small>
+        </div>
+
+        <div style="color:red; margin-bottom:15px;">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+
+        <button type="submit">Добавить запись</button>
+    </form>
+</div>
+
+<br />
+
+@if (Model.Appointments.Any())
+{
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Клиент</th>
+                    <th>Телефон</th>
+                    <th>Мастер</th>
+                    <th>Услуга</th>
+                    <th>Дата и время</th>
+                    <th>Отзыв</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Appointments)
+                {
+                    <tr>
+                        <td>@item.ClientName</td>
+                        <td>@item.Phone</td>
+                        <td>@(item.Master != null ? item.Master.FullName : "")</td>
+                        <td>@(item.Service != null ? item.Service.Name : "")</td>
+                        <td>@item.AppointmentDate.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(item.Review))
+                            {
+                                @item.Review
+                            }
+                            else
+                            {
+                                <span>—</span>
+                            }
+                        </td>
+                        <td>
+                            <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Удалить запись?');">
+                                <input type="hidden" name="DeleteId" value="@item.Id" />
+                                <button type="submit" class="delete-btn">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>Записей пока нет.</p>
+}
+
+<br />
+<a href="javascript:history.back()" class="back-link">Вернуться назад</a>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const input = document.querySelector("input[type='datetime-local']");
+        if (!input) return;
+
+        input.addEventListener("change", function () {
+            if (!this.value) return;
+
+            const date = new Date(this.value);
+            const year = date.getFullYear();
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+
+            if (year < 2026) {
+                alert("Запись возможна только начиная с 2026 года");
+                this.value = "2026-01-01T07:00";
+                return;
+            }
+
+            if (hours < 7 || hours > 19) {
+                alert("Выберите время с 07:00 до 19:00");
+                this.value = "";
+                return;
+            }
+
+            if (minutes !== 0) {
+                alert("Выберите целый час: 07:00, 08:00, 09:00 и так далее");
+                this.value = "";
+            }
+        });
+    });
+</script>

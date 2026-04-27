@@ -1,0 +1,101 @@
+﻿@page
+@model TochkaKrasoty.Pages.AppointmentModel
+@{
+    ViewData["Title"] = "Запись на услугу";
+}
+
+<h1>Записаться на услугу</h1>
+
+<div class="appointment-box">
+    <form method="get" class="appointment-filter">
+        <div class="form-group">
+            <label>Мастер:</label>
+            <select name="masterId">
+                <option value="0">Выберите мастера</option>
+                @foreach (var item in Model.MastersList)
+                {
+                    if (item.Value == Model.Input.MasterId.ToString())
+                    {
+                        <option value="@item.Value" selected>@item.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Дата:</label>
+            <input type="date" name="appointmentDate" value="@Model.Input.AppointmentDate.ToString("yyyy-MM-dd")" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <button type="submit">Показать свободное время</button>
+    </form>
+
+    <hr />
+
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="Input.ClientName">Ваше имя:</label>
+            <input asp-for="Input.ClientName" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Phone">Телефон:</label>
+            <input asp-for="Input.Phone" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.MasterId">Мастер:</label>
+            <select asp-for="Input.MasterId" asp-items="Model.MastersList">
+                <option value="0">Выберите мастера</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.ServiceItemId">Услуга:</label>
+            <select asp-for="Input.ServiceItemId" asp-items="Model.ServicesList">
+                <option value="0">Выберите услугу</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.AppointmentDate">Дата:</label>
+            <input asp-for="Input.AppointmentDate" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.AppointmentTime">Свободное время:</label>
+
+            @if (Model.AvailableTimes.Any())
+            {
+                <select asp-for="Input.AppointmentTime">
+                    <option value="">Выберите время</option>
+                    @foreach (var time in Model.AvailableTimes)
+                    {
+                        <option value="@time">@time</option>
+                    }
+                </select>
+            }
+            else
+            {
+                <div style="color:red;">На выбранный день у этого мастера свободного времени нет</div>
+                <input asp-for="Input.AppointmentTime" type="hidden" />
+            }
+        </div>
+
+        <div style="color:red; margin-bottom:15px;">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+
+        <button type="submit">Записаться</button>
+    </form>
+
+    <br />
+    <a href="javascript:history.back()" class="back-link">Вернуться назад</a>
+</div>

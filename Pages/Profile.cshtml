@@ -1,0 +1,73 @@
+﻿@page
+@model TochkaKrasoty.Pages.ProfileModel
+@{
+    ViewData["Title"] = "Профиль";
+}
+
+<h1>Профиль</h1>
+
+@if (Model.CurrentUser != null)
+{
+    <p><strong>Вы зашли в свой аккаунт</strong></p>
+    <p>Имя: @Model.CurrentUser.FullName</p>
+    <p>Email: @Model.CurrentUser.Email</p>
+}
+
+<p>
+    <a asp-page="/Appointment" class="btn-main">Записаться на услугу</a>
+</p>
+
+<h2>Мои записи</h2>
+
+@if (Model.MyAppointments.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Мастер</th>
+                <th>Услуга</th>
+                <th>Дата и время</th>
+                <th>Телефон</th>
+                <th>Отзыв</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MyAppointments)
+            {
+                <tr>
+                    <td>@item..Master?.FullName</td>
+                    <td>@item.Service?.Name</td>
+                    <td>@item.AppointmentDate.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@item.Phone</td>
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(item.Review))
+                        {
+                            <span>@item.Review</span>
+                        }
+                        else
+                        {
+                            <form method="post" asp-page-handler="AddReview">
+                                <input type="hidden" name="AppointmentId" value="@item.Id" />
+                                <textarea name="ReviewText" rows="3" placeholder="Оставьте отзыв после процедуры"></textarea>
+                                <br />
+                                <button type="submit">Отправить отзыв</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>У вас пока нет записей.</p>
+}
+
+<div style="color:red; margin-top:15px;">
+    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+    {
+        <p>@error.ErrorMessage</p>
+        <a href="javascript:history.back()" class="back-link">Вернуться назад</a>
+    }
+</div>

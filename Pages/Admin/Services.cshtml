@@ -1,0 +1,87 @@
+@page
+@model TochkaKrasoty.Pages.Admin.ServicesModel
+@{
+    ViewData["Title"] = "Процедуры";
+}
+
+<h1>Процедуры</h1>
+
+<h3>Добавить процедуру</h3>
+
+<form method="post">
+    <div>
+        <label>Мастер</label>
+        <select asp-for="NewService.MasterId">
+            <option value="0">Выберите мастера</option>
+            @foreach (var master in Model.Masters)
+            {
+                <option value="@master.Id">@master.FullName (@master.Specialization)</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label>Название</label>
+        <input asp-for="NewService.Name" />
+    </div>
+
+    <div>
+        <label>Описание</label>
+        <input asp-for="NewService.Description" />
+    </div>
+
+    <div>
+        <label>Цена</label>
+        <input asp-for="NewService.Price" />
+    </div>
+
+    <div>
+        <label>Длительность (мин.)</label>
+        <input asp-for="NewService.DurationMinutes" />
+    </div>
+
+    <button type="submit">Добавить процедуру</button>
+
+    <div style="color:red">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+</form>
+
+<hr />
+
+<h3>Список процедур</h3>
+
+<table border="1" cellpadding="8">
+    <thead>
+        <tr>
+            <th>Мастер</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Цена</th>
+            <th>Длительность</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var service in Model.Services)
+        {
+            <tr>
+                <td>@service.Master?.FullName</td>
+                <td>@service.Name</td>
+                <td>@service.Description</td>
+                <td>@service.Price</td>
+                <td>@service.DurationMinutes мин.</td>
+                <td>
+                    <form method="post" asp-page-handler="Delete">
+                        <input type="hidden" name="id" value="@service.Id" />
+                        <button type="submit">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <a href="javascript:history.back()" class="back-link">Вернуться назад</a>
+</table>

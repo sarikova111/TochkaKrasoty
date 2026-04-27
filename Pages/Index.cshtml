@@ -1,0 +1,76 @@
+﻿@page
+@model TochkaKrasoty.Pages.IndexModel
+
+<div class="home-page">
+    <section class="hero">
+        <div class="hero-text">
+            <span class="hero-badge">Премиальный салон красоты</span>
+            <h1>Салон красоты «Точка красоты»</h1>
+            <p>
+                Профессиональные стрижки, окрашивание, укладки, визаж и оформление бровей.
+                Подчеркнём вашу красоту и создадим идеальный образ.
+            </p>
+
+            <div class="hero-buttons">
+                <a asp-page="/Appointment" class="btn-main">Записаться</a>
+                <a href="#services" class="btn-outline">Наши услуги</a>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <img src="~/images/main-salon.jpg" alt="Салон красоты" />
+        </div>
+    </section>
+
+    <section id="services" class="services-section">
+        <h2>Наши услуги</h2>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <img src="~/images/service-haircut.jpg" alt="Стрижки" />
+                <h3>Стрижки</h3>
+                <p>Красивые, современные и аккуратные стрижки для любого образа.</p>
+            </div>
+
+            <div class="service-card">
+                <img src="~/images/service-color.jpg" alt="Окрашивание" />
+                <h3>Окрашивание</h3>
+                <p>Профессиональный подбор оттенка и стойкий результат.</p>
+            </div>
+
+            <div class="service-card">
+                <img src="~/images/service-makeup.jpg" alt="Визаж" />
+                <h3>Визаж</h3>
+                <p>Макияж для фотосессий, праздников, свадеб и повседневной жизни.</p>
+            </div>
+
+            <div class="service-card">
+                <img src="~/images/service-brows.jpg" alt="Оформление бровей" />
+                <h3>Оформление бровей</h3>
+                <p>Идеальная форма и выразительный взгляд.</p>
+            </div>
+
+            <div class="service-card">
+                <img src="~/images/service-styling.jpg" alt="Укладки" />
+                <h3>Укладки</h3>
+                <p>Лёгкие, вечерние и праздничные укладки на любой случай.</p>
+            </div>
+
+            <div class="service-card">
+                <img src="~/images/service-reconstruction.jpg" alt="Реконструкция волос" />
+                <h3>Реконструкция волос</h3>
+                <p>Уход и восстановление структуры волос для блеска и здоровья.</p>
+            </div>
+        </div>
+        <section class="gallery">
+            <h2>Наши работы</h2>
+
+            <div class="gallery-grid">
+                <img src="/images/work1.jpg" alt="">
+                <img src="/images/work2.jpg" alt="">
+                <img src="/images/work3.jpg" alt="">
+                <img src="/images/work4.jpg" alt="">
+            </div>
+        </section>
+    </section>
+</div>

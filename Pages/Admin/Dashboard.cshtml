@@ -1,0 +1,27 @@
+@page
+@model TochkaKrasoty.Pages.Admin.DashboardModel
+@{
+    ViewData["Title"] = "Админ-панель";
+}
+
+<h1 class="admin-title">Админ-панель</h1>
+<p class="admin-subtitle">Вы вошли как администратор</p>
+
+<div class="admin-grid">
+
+    <a asp-page="/Admin/Masters" class="admin-card">
+        <h3>Мастера</h3>
+        <p>Управление мастерами салона</p>
+    </a>
+
+    <a asp-page="/Admin/Services" class="admin-card">
+        <h3>Процедуры</h3>
+        <p>Список услуг и цен</p>
+    </a>
+
+    <a asp-page="/Admin/Appointments" class="admin-card">
+        <h3>Записи</h3>
+        <p>Просмотр записей клиентов</p>
+    </a>
+    <a href="javascript:history.back()" class="back-link">Вернуться назад</a>
+</div>

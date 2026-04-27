@@ -1,0 +1,26 @@
+﻿@page
+@model TochkaKrasoty.Pages.LoginModel
+
+<h2>Вход</h2>
+
+<form method="post">
+    <div>
+        <label>Email:</label>
+        <input asp-for="Input.Email" />
+    </div>
+
+    <div>
+        <label>Пароль:</label>
+        <input asp-for="Input.Password" type="password" />
+    </div>
+
+    <button type="submit">Войти</button>
+
+    <div style="color:red">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+    <a href="javascript:history.back()" class="back-link">Вернуться назад</a>
+</form>
